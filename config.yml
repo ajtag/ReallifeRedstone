@@ -1,0 +1,7 @@
+Mqtt:
+    Server: 192.168.0.188 #localhost
+    Port: 1883
+    Topic: Minecraft
+    ClientID: MyMinecraftServer
+BlockStore:
+    Type: Memory

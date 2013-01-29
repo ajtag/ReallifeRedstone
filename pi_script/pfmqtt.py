@@ -31,8 +31,7 @@ class pfmqtt:
         conn = self.mos.connect(self.uri, port=self.port)
         if conn != 0:
             print 'Connection Failed with error: ' + str(conn)
-            raise "CONNECTION ERROR"
-        
+            raise "CONNECTION ERROR"    
         self.mos.subscribe(self.topicheader + "/output/pin/+", 0) # get all messages for me
 
     def run(self):
@@ -40,13 +39,12 @@ class pfmqtt:
             inputpins = pfio.read_input() # get input pin state
             if self.inputpins != inputpins: # check to see if they are different
                 change = self.inputpins ^ inputpins #get the differences
-                
                 for i in range(8): 
                     pinid = 1<<i
                     if change & pinid == pinid:
-                            self.mos.publish(self.topicheader + '/input/pin' + str(i), str((inputpins&pinid)>>i", 0 )
+                        self.mos.publish( self.topicheader + '/input/pin' + str(i), str((inputpins&pinid)>>i), 0 )
                 self.inputpins = inputpins
-
+                
     def on_message(self,  obj, msg):
         
         rm = self.outputRegex.match( msg.topic )
