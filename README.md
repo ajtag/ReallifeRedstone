@@ -1,6 +1,6 @@
 ReallifeRedstone
-0.0.1
 ======================
+0.0.1
 
 Bukkit Plugin to breakout redstone signals to a mqtt server.
 this code is still very much in alpha state. 
