@@ -1,5 +1,5 @@
 Mqtt:
-    Server: 192.168.0.188 #localhost
+    Server: localhost
     Port: 1883
     Topic: Minecraft
     ClientID: MyMinecraftServer

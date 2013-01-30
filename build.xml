@@ -1,0 +1,103 @@
+<!--    
+	Copyright 2013 Angus Taggart
+	
+	This file is part of mcmqtt.
+
+    mcmqtt is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mcmqtt is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser Public License for more details.
+
+    You should have received a copy of the GNU Lesser Public License
+    along with mcmqtt.  If not, see <http://www.gnu.org/licenses/>.
+    	
+-->
+<project>
+	<property name="lib.dir"     value="lib"/>
+	<property name="src.dir"     value="src"/>
+
+	<property name="minecraftinstall.dir" value="/users/ataggart/Desktop/personal/minecraft/plugins" />
+	
+	
+	<property name="dist.dir"   value="dist"/>
+	<property name="build.dir"   value="build"/>
+		<property name="classes.dir" value="${build.dir}/classes"/>
+		<property name="jar.dir"     value="${build.dir}/jar"/>
+		<property name="mqttfolder.dir" value="${build.dir}/mcMqtt"/>
+			<property name="buildlib.dir" value="${build.dir}/mcMqtt/lib"/>
+
+
+	<path id="classpath">
+	    <fileset dir="${lib.dir}" includes="**/*.jar"/>
+	</path>
+	
+	
+	<target name="clean">
+	        <delete dir="${build.dir}"/>
+	</target>
+	
+	
+	
+    <target name="compile" depends="build">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" classpathref="classpath"/>
+    </target>
+
+	
+	
+	
+	<target name="build">
+    	<mkdir dir="${classes.dir}"/>
+    	<copy file="plugin.yml" todir="${classes.dir}"/>
+    	<copy file="config.yml" todir="${classes.dir}"/>
+    	
+    	<mkdir dir="${buildlib.dir}"/>
+    	<copy file="${lib.dir}/org.eclipse.paho.client.mqttv3.jar" todir="${buildlib.dir}"/>
+	</target>
+	
+	
+	
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/McMqtt.jar" basedir="${classes.dir}">
+	        <manifest>
+				<attribute name="Class-Path" value="./mcMqtt/lib/org.eclipse.paho.client.mqttv3.jar" />
+			</manifest>
+        </jar>
+    </target>
+	
+	
+	
+	
+	<target name="bukkit" depends="clean,compile" >
+		<copy todir="${minecraftinstall.dir}/mcMqtt">
+			<fileset dir="${mqttfolder.dir}"/>
+		</copy>
+		
+		<jar destfile="${minecraftinstall.dir}/mcmqtt.jar" basedir="${classes.dir}">	
+	        <manifest>
+				<attribute name="Class-Path" value="./mcMqtt/lib/org.eclipse.paho.client.mqttv3.jar" />
+			</manifest>
+       </jar>
+	</target>
+	
+	<target name="zip" depends="clean,build,compile,jar">
+		
+		
+		
+		<zip destfile="${dist.dir}/mcmqtt.zip">
+			<zipfileset dir="doc" prefix="docs"/>
+			<zipfileset dir="${jar.dir}/" prefix="MCMQTT"/>
+			<zipfileset dir="${mqttfolder.dir}" prefix="MCMQTT/McMqtt"/>
+			<zipfileset dir="${classes.dir}" includes="config.yml" prefix="MCMQTT/McMqtt" />
+			<zipfileset dir="." includes="README.md"/>
+			<zipfileset dir="pi_script"  prefix="pi_script"/>
+		</zip>
+	</target>
+	
+	<target name="main" depends="clean,jar"/>
+</project>
