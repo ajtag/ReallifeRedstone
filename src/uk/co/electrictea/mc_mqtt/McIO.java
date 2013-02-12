@@ -124,7 +124,8 @@ public class McIO implements Listener {
 	 public void SignChange(SignChangeEvent bce){
 		 if (((bce.getBlock().getTypeId() == 63) || bce.getBlock().getTypeId() == 68)){
 			 if ( bce.getLine(0).equalsIgnoreCase("[input]")){
-				 //Logger.getLogger("INFO").info("Input Sign");
+				 //Logger.getLogger("INFO").info(bce.getLines()[0]);
+				 //Logger.getLogger("INFO").info(bce.getBlock);
 				 ioBlockStore.addBlock(bce.getBlock(), bce.getLines());
 				 byte lever = 0x0;
 					 if (bce.getBlock().getTypeId() == 63){

@@ -19,19 +19,31 @@
 package uk.co.electrictea.mc_mqtt;
 
 import java.util.ArrayList;
+
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class MemoryStore implements BlockStore{
-	//this store is temp, so Input levers will only last as long as the server
+	//this store is temporary, so Input levers will only last as long as the server
 	ArrayList<InputLever> inputBlocks;
+	
+	public MemoryStore () {
+		inputBlocks = new ArrayList<InputLever>(10);
+	}
 	
 	public int length(){
 		return inputBlocks.size();
 	}
 	
 	public void addBlock(Block ioBlock, String[] signText) {
-		this.inputBlocks.add(new InputLever(signText, ioBlock.getLocation(), ioBlock.getWorld()));
+		this.inputBlocks.add(
+				new InputLever(
+						signText, 
+						ioBlock.getLocation(), 
+						ioBlock.getWorld()
+				)
+			);
 	}
 	
 	public boolean isIoBlock(Block ioBlock){
@@ -55,20 +67,6 @@ public class MemoryStore implements BlockStore{
 		return bl;
 	}
 	
-	/*
-	private int getInputBlockID(String inputID){
-		Logger.getLogger("INFO").info("Searching for :" + inputID);
-		for(int i=0; i < this.inputBlocks.size(); i++){
-			if (this.inputBlocks.get(i).getSignName().equalsIgnoreCase( inputID ) ){
-				return i;
-			}else
-			 Logger.getLogger("INFO").info(this.inputBlocks.get(i).getSignName());
-			
-		}
-		return -1;
-	}
-*/
-	
 	public void removeBlock(Block ioBlock){
 		if(ioBlock.getType() == Material.LEVER){
 			for(int i=0; i < this.inputBlocks.size(); i++){
@@ -78,20 +76,4 @@ public class MemoryStore implements BlockStore{
 			}
 		}
 	}
-	
-	
-
-	/*
-	private int getInputBlockID(String inputID){
-		Logger.getLogger("INFO").info("Searching for :" + inputID);
-		for(int i=0; i < this.inputBlocks.size(); i++){
-			if (this.inputBlocks.get(i).getSignName().equalsIgnoreCase( inputID ) ){
-				return i;
-			}else
-			 Logger.getLogger("INFO").info(this.inputBlocks.get(i).getSignName());
-			
-		}
-		return -1;
-	}
-	*/
 }
