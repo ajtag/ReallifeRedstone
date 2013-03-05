@@ -49,10 +49,10 @@ public class McIO implements Listener {
 	  //Logger.getLogger("INFO").info("BID: " +blockid);
 		Block ib;
 		ArrayList<InputLever> bl  = ioBlockStore.getInputBlockLocations(topic);
-		int i = bl.size();
 		byte lever;
 		
-		while (i > 0){
+		int i = (bl.size())-1;
+		while (i >= 0){
 			ib = bl.get(i).getBlock();		
 			//bl.get(i).getWorld().getBlockAt(bl.get(i).getLocation());
 			lever = ib.getData();
